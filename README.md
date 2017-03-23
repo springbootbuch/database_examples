@@ -1,5 +1,7 @@
 # database_examples
 
+[![Build Status](https://travis-ci.org/springbootbuch/database_examples.svg?branch=master)](https://travis-ci.org/springbootbuch/database_examples)
+
 ## Running
 
 You'll need PostgreSQL listening to its standard port on your host.
