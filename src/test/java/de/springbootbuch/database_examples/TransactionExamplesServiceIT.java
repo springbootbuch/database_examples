@@ -1,6 +1,7 @@
 package de.springbootbuch.database_examples;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertThat;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,5 +52,10 @@ public class TransactionExamplesServiceIT {
 				jdbcTemplate, 
 				"actor", "first_name like 'Chuck%'"), 
 			is(1));
+	}
+	
+	@Test
+	public void countSomethingShouldWork() {
+		assertThat(examplesService.countSomething(), is(greaterThan(0L)));
 	}
 }
