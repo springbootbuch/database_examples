@@ -17,16 +17,32 @@
     <artifactId>database_examples</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
+    <properties>
+        <db.url>jdbc:postgresql://localhost:5432/dvdrental</db.url>
+        <db.username>spring_postgres</db.username>
+        <db.password>spring_postgres</db.password>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>
-                spring-boot-starter-jdbc
-            </artifactId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jooq</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -41,72 +57,102 @@
 
     <build>
         <finalName>${project.artifactId}</finalName>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>io.fabric8</groupId>
+                    <artifactId>docker-maven-plugin</artifactId>
+                    <version>0.20.0</version>
+                    <configuration>
+                        <images>
+                            <image>
+                                <name>postgres:9.6</name>
+                                <alias>postgres-db</alias>
+                                <run>
+                                    <env>
+                                        <POSTGRES_USER>spring_postgres</POSTGRES_USER>
+                                        <POSTGRES_PASSWORD>spring_postgres</POSTGRES_PASSWORD>
+                                        <POSTGRES_DB>dvdrental</POSTGRES_DB>
+                                    </env>
+                                    <ports>
+                                        <port>5432:5432</port>
+                                    </ports>
+                                    <wait>
+                                        <log>database system is ready to accept connections</log>
+                                        <time>40000</time>
+                                    </wait>
+                                </run>
+                            </image>
+                        </images>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>${flyway.version}</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>migrate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <url>${db.url}</url>
+                    <user>${db.username}</user>
+                    <password>${db.password}</password>
+                    <locations>
+                        <location>filesystem:src/main/resources/db/migration</location>
+                    </locations>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq-codegen-maven</artifactId>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <jdbc>
+                        <driver>org.postgresql.Driver</driver>
+                        <url>${db.url}</url>
+                        <user>${db.username}</user>
+                        <password>${db.password}</password>
+                    </jdbc>
+                    <generator>
+                        <database>
+                            <name>org.jooq.util.postgres.PostgresDatabase</name>
+                            <schemaVersionProvider>SELECT :schema_name || '_' || MAX("version") FROM "schema_version"</schemaVersionProvider>
+                            <includes>.*</includes>
+                            <excludes>schema_version</excludes>
+                            <schemata>
+                                <schema>
+                                    <inputSchema>public</inputSchema>
+                                    <outputSchemaToDefault>true</outputSchemaToDefault>
+                                </schema>
+                            </schemata>
+                        </database>
+                        <target>
+                            <packageName>de.springbootbuch.database_examples.jooq</packageName>
+                            <directory>target/generated-sources/jooq</directory>
+                        </target>
+                    </generator>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>
                     spring-boot-maven-plugin
                 </artifactId>
-            </plugin>            
-            <plugin>
-                <groupId>io.fabric8</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>0.20.0</version>
-                <configuration>
-                    <images>
-                        <image>
-                            <name>postgres:9.6</name>
-                            <alias>postgres-db</alias>
-                            <run>
-                                <env>
-                                    <POSTGRES_USER>spring_postgres</POSTGRES_USER>
-                                    <POSTGRES_PASSWORD>spring_postgres</POSTGRES_PASSWORD>
-                                    <POSTGRES_DB>dvdrental</POSTGRES_DB>
-                                </env>
-                                <volumes>
-                                    <bind>
-                                        <volume>${project.build.scriptSourceDirectory}:/docker-entrypoint-initdb.d</volume>
-                                    </bind>
-                                </volumes>
-                                <ports>
-                                    <port>5432:5432</port>
-                                </ports>
-                                <wait>
-                                    <log>Pagila loaded</log>
-                                    <time>40000</time>
-                                </wait>
-                            </run>
-                        </image>
-                    </images>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>prepare-it-database</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>start</goal>
-                        </goals>
-                        <configuration>
-                            <images>
-                                <image>
-                                    <alias>postgres-db</alias>
-                                    <run>
-                                        <ports>
-                                            <port>postgres-db-it.port:5432</port>
-                                        </ports>
-                                    </run>
-                                </image>
-                            </images>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>remove-it-database</id>
-                        <phase>post-integration-test</phase>
-                        <goals>
-                            <goal>stop</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -124,11 +170,58 @@
                     <reuseForks>true</reuseForks>
                     <environmentVariables>
                         <postgres.port>${postgres-db-it.port}</postgres.port>
+                        <spring.profiles.active>it</spring.profiles.active>
                     </environmentVariables>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>use-docker-for-it</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <executions>
+                            <!-- Runs before and after integration test -->
+                            <execution>
+                                <id>prepare-it-database</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>start</goal>
+                                </goals>
+                                <configuration>
+                                    <images>
+                                        <image>
+                                            <alias>postgres-db</alias>
+                                            <run>
+                                                <ports>
+                                                    <port>postgres-db-it.port:5432</port>
+                                                </ports>
+                                            </run>
+                                        </image>
+                                    </images>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>remove-it-database</id>
+                                <phase>post-integration-test</phase>
+                                <goals>
+                                    <goal>stop</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <!-- DELETE ME -->
     <repositories>

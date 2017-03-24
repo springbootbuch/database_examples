@@ -2,21 +2,19 @@
 
 [![Build Status](https://travis-ci.org/springbootbuch/database_examples.svg?branch=master)](https://travis-ci.org/springbootbuch/database_examples)
 
-## Running
+## Building and Running
 
-You'll need PostgreSQL listening to its standard port on your host.
+database_examples uses jOOQ code generation, so it needs a running PostgreSQL during build. The project also does some integration tests agains another PostgreSQL database running on docker which must be installed.
 
-Use
+You can either setup PostgreSQL natively on your machine, create a database user `spring_postgres` with the same password having access to database `dvdrental` or use the Maven to fire up an instance on docker with
 
 ```
 mvn docker:start
 ```
 
-to startup a container.
+The project is ready configured to run agains this database.
 
-## Building
-
-The project does some integration tests using docker. You got to have Docker installed for your system to build the project using
+Build it with 
 
 ```
 mvn clean verify
