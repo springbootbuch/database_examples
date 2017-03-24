@@ -4,6 +4,8 @@ jdk:
 services:
 - postgresql
 before_script:
+addons:
+  postgresql: "9.4"
   - psql -c 'create database dvdrental;' -U postgres
 install: 
   - ./mvnw -Dpostgres-db-it.port=5432 -Ddb.username=postgres -Ddb.password= -Dspring.datasource.username=postgres -Dspring.datasource.password= -DskipTests=true -Dmaven.javadoc.skip=true -B -V install -P -use-docker-for-it
