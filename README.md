@@ -6,7 +6,7 @@
 
 database_examples uses jOOQ code generation, so it needs a running PostgreSQL during build. The project also does some integration tests agains another PostgreSQL database running on docker which must be installed.
 
-You can either setup PostgreSQL natively on your machine, create a database user `spring_postgres` with the same password having access to database `dvdrental` or use the Maven to fire up an instance on docker with
+You can either setup PostgreSQL natively on your machine, create a database user `spring` with the same password having access to database `pagila` or use the Maven to fire up an instance on docker with
 
 ```
 mvn docker:start
