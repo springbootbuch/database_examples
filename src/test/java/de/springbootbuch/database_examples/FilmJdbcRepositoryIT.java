@@ -15,7 +15,8 @@ import static org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@JdbcTest(
+@JdbcTest
+(
 	includeFilters = 
 		@Filter(value = FilmJdbcRepository.class, type = ASSIGNABLE_TYPE)
 )
