@@ -64,7 +64,7 @@
 				<plugin>
 					<groupId>io.fabric8</groupId>
 					<artifactId>docker-maven-plugin</artifactId>
-					<version>0.20.0</version>
+					<version>0.20.1</version>
 					<configuration>
 						<images>
 							<image>
@@ -80,7 +80,7 @@
 										<port>5432:5432</port>
 									</ports>
 									<wait>
-										<log>database system is ready to accept connections</log>
+										<log>(?s)database system is ready to accept connections.*database system is ready to accept connections</log>
 										<time>40000</time>
 									</wait>
 								</run>
