@@ -1,4 +1,4 @@
-package de.springbootbuch.database_examples;
+package de.springbootbuch.database_examples.jooq;
 
 import static de.springbootbuch.database_examples.jooq.Tables.LANGUAGE;
 import static de.springbootbuch.database_examples.jooq.Tables.ACTOR;

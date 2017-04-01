@@ -4,8 +4,9 @@
  * and open the template in the editor.
  */
 
-package de.springbootbuch.database_examples;
+package de.springbootbuch.database_examples.jooq;
 
+import de.springbootbuch.database_examples.Film;
 import java.util.List;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.greaterThan;

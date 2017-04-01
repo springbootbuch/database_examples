@@ -1,5 +1,6 @@
-package de.springbootbuch.database_examples;
+package de.springbootbuch.database_examples.jdbc;
 
+import de.springbootbuch.database_examples.Film;
 import java.time.Year;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;

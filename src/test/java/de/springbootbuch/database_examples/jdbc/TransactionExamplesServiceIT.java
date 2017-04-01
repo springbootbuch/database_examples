@@ -1,5 +1,6 @@
-package de.springbootbuch.database_examples;
+package de.springbootbuch.database_examples.jdbc;
 
+import de.springbootbuch.database_examples.jdbc.TransactionExamplesService;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertThat;

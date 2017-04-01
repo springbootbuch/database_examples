@@ -1,4 +1,4 @@
-package de.springbootbuch.database_examples;
+package de.springbootbuch.database_examples.jdbc;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;

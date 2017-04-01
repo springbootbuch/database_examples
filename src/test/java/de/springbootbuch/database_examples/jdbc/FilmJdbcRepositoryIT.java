@@ -1,5 +1,6 @@
-package de.springbootbuch.database_examples;
+package de.springbootbuch.database_examples.jdbc;
 
+import de.springbootbuch.database_examples.Film;
 import java.util.List;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.greaterThan;

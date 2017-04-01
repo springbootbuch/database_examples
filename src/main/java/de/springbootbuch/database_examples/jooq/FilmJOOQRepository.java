@@ -1,5 +1,6 @@
-package de.springbootbuch.database_examples;
+package de.springbootbuch.database_examples.jooq;
 
+import de.springbootbuch.database_examples.Film;
 import static de.springbootbuch.database_examples.jooq.Tables.FILM;
 import java.time.Year;
 import java.util.List;
