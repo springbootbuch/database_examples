@@ -7,20 +7,26 @@ import java.util.List;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
 
+/**
+ * Part of springbootbuch.de.
+ * @author Michael J. Simons
+ * @author @rotnroll666
+ */
 @Repository
 public class FilmJOOQRepository {
-	private final DSLContext create;
+	private final DSLContext ctx;
 
-	public FilmJOOQRepository(DSLContext create) {
-		this.create = create;
+	public FilmJOOQRepository(DSLContext ctx) {
+		this.ctx = ctx;
 	}
 
 	public List<Film> findAll() {
-		return this.create
-			.selectFrom(FILM)
+		return this.ctx
+			.select(FILM.TITLE, FILM.RELEASE_YEAR)
+			.from(FILM)
 			.fetch(r -> new Film(
-				r.getTitle(),
-				Year.of(r.getReleaseYear()))
+				r.get(FILM.TITLE),
+				Year.of(r.get(FILM.RELEASE_YEAR)))
 			);
 	}
 }
