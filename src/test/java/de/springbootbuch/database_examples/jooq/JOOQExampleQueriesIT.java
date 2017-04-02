@@ -14,8 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.autoconfigure.jooq.JooqAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.ComponentScan;
 import static org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE;
@@ -27,7 +25,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 	includeFilters = 
 		@ComponentScan.Filter(value = JOOQExampleQueries.class, type = ASSIGNABLE_TYPE)
 )
-@AutoConfigureTestDatabase(replace = NONE)
 @ImportAutoConfiguration(JooqAutoConfiguration.class)
 public class JOOQExampleQueriesIT {
 	
