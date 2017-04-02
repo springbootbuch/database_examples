@@ -1,12 +1,16 @@
 package de.springbootbuch.database_examples.springdata;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -29,6 +33,14 @@ public class FilmEntity implements Serializable {
 
 	private Integer releaseYear;
 
+	@ManyToMany
+	@JoinTable(
+		name = "film_actor", 
+		joinColumns = @JoinColumn(name = "film_id"),
+		inverseJoinColumns = @JoinColumn(name = "actor_id")
+	)
+	private final Set<ActorEntity> actors = new HashSet<>();
+	
 	protected FilmEntity() {
 	}
 
@@ -58,5 +70,9 @@ public class FilmEntity implements Serializable {
 
 	public void setReleaseYear(Integer releaseYear) {
 		this.releaseYear = releaseYear;
+	}
+
+	public Set<ActorEntity> getActors() {
+		return actors;
 	}
 }
