@@ -11,3 +11,6 @@ install:
   - ./mvnw -Dpostgres-db-it.port=5432 -Dbuild.datasource.username=postgres -Dbuild.datasource.password= -Dspring.datasource.username=postgres -Dspring.datasource.password= -DskipTests=true -Dmaven.javadoc.skip=true -B -V install -P -use-docker-for-it
 script:
   - ./mvnw -Dpostgres-db-it.port=5432 -Dbuild.datasource.username=postgres -Dbuild.datasource.password= -Dspring.datasource.username=postgres -Dspring.datasource.password= verify -P -use-docker-for-it
+cache:
+  directories:
+  - $HOME/.m2
