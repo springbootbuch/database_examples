@@ -26,10 +26,10 @@ public class FilmSimpleJpaRepositoryIT {
 	public void findOneShouldWork() {
 		Optional<FilmEntity> film;
 		
-		film = filmRepository.findOne(-1);
+		film = filmRepository.findById(-1);
 		assertThat(film.isPresent(), is(false));
 		
-		film = filmRepository.findOne(1);
+		film = filmRepository.findById(1);
 		assertThat(film.isPresent(), is(true));
 	}
 	

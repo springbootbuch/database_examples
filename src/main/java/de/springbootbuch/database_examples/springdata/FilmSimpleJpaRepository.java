@@ -7,7 +7,7 @@ import org.springframework.data.repository.Repository;
 public interface FilmSimpleJpaRepository 
 	extends Repository<FilmEntity, Integer> {
 	
-	Optional<FilmEntity> findOne(Integer id);
+	Optional<FilmEntity> findById(Integer id);
 	
 	Stream<FilmEntity> findAll();
 	
