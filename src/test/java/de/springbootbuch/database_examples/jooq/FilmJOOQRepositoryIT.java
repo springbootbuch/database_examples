@@ -8,19 +8,16 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
-import org.springframework.boot.autoconfigure.jooq.JooqAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.boot.test.autoconfigure.jooq.JooqTest;
 import org.springframework.context.annotation.ComponentScan;
 import static org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@JdbcTest(
+@JooqTest(
 	includeFilters =
 		@ComponentScan.Filter(value = FilmJOOQRepository.class, type = ASSIGNABLE_TYPE)
 )
-@ImportAutoConfiguration(JooqAutoConfiguration.class)
 public class FilmJOOQRepositoryIT {
 
 	@Autowired
