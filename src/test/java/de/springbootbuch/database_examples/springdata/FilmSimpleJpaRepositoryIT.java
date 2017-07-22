@@ -35,14 +35,20 @@ public class FilmSimpleJpaRepositoryIT {
 	
 	@Test
 	public void findAllShouldWork() {
-		try (Stream<FilmEntity> stream = filmRepository.findAll()) {
-			stream.map(FilmEntity::getTitle).forEach(LOG::debug);
+		try (
+			Stream<FilmEntity> stream = 
+				filmRepository.findAll()
+		) {
+			stream.map(FilmEntity::getTitle)
+				.forEach(LOG::debug);
 		}
 	}
 	
 	@Test
 	public void countAllByTitleLikeShouldWork() {
 		assertThat(
-			filmRepository.countAllByTitleLike("A%"), is(46L));
+			filmRepository
+				.countAllByTitleLike("A%"), 
+			is(46L));
 	}
 }
