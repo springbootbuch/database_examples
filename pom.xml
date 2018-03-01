@@ -130,7 +130,7 @@
 					<generator>
 						<database>
 							<name>org.jooq.util.postgres.PostgresDatabase</name>
-							<schemaVersionProvider>SELECT :schema_name || '_' || MAX("version") FROM "schema_version"</schemaVersionProvider>
+							<schemaVersionProvider>SELECT :schema_name || '_' || MAX("version") FROM "flyway_schema_history"</schemaVersionProvider>
 							<includes>.*</includes>
 							<excludes>schema_version</excludes>
 							<schemata>
