@@ -4,15 +4,15 @@ import static org.hamcrest.CoreMatchers.is;
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
 import static org.junit.Assert.assertThat;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.autoconfigure.jooq.JooqAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @JdbcTest
 @ImportAutoConfiguration(JooqAutoConfiguration.class)
 public class ConfigIT {

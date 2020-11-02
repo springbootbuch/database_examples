@@ -3,8 +3,8 @@ package de.springbootbuch.database_examples.jdbc;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertThat;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
@@ -13,10 +13,10 @@ import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTableWhere;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @JdbcTest(
 	includeFilters = @Filter(value = Service.class))
 @AutoConfigureTestDatabase(replace = NONE)
