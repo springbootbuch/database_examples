@@ -1,9 +1,9 @@
 package de.springbootbuch.database_examples.jooq;
 
-import static org.hamcrest.CoreMatchers.is;
+import static org.assertj.core.api.Assertions.*;
+
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
-import static org.junit.Assert.assertThat;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +22,6 @@ public class ConfigIT {
 
 	@Test
 	public void dialectShouldBePickedUp() {
-		assertThat(dSLContext.configuration().dialect(), is(SQLDialect.POSTGRES));
+		assertThat(dSLContext.configuration().dialect()).isEqualTo(SQLDialect.POSTGRES);
 	}
 }

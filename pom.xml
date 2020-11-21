@@ -24,6 +24,7 @@
 		</build.datasource.url>
 		<build.datasource.username>spring</build.datasource.username>
 		<build.datasource.password>spring</build.datasource.password>
+		<postgres.db.port>5432</postgres.db.port>
 	</properties>
 
 	<dependencies>
@@ -65,11 +66,11 @@
 				<plugin>
 					<groupId>io.fabric8</groupId>
 					<artifactId>docker-maven-plugin</artifactId>
-					<version>0.24.0</version>
+					<version>0.34.1</version>
 					<configuration>
 						<images>
 							<image>
-								<name>postgres:9.4</name>
+								<name>postgres:13.1</name>
 								<alias>postgres-db</alias>
 								<run>
 									<env>
@@ -130,7 +131,7 @@
 					</jdbc>
 					<generator>
 						<database>
-							<name>org.jooq.util.postgres.PostgresDatabase</name>
+							<name>org.jooq.meta.postgres.PostgresDatabase</name>
 							<schemaVersionProvider>SELECT :schema_name || '_' || MAX("version") FROM "flyway_schema_history"</schemaVersionProvider>
 							<includes>.*</includes>
 							<excludes>schema_version</excludes>
@@ -162,7 +163,7 @@
 					<forkCount>1</forkCount>
 					<reuseForks>true</reuseForks>
 					<environmentVariables>
-						<postgres.port>${postgres-db-it.port}</postgres.port>
+						<postgres.port>${postgres.db.port}</postgres.port>
 						<spring.profiles.active>it</spring.profiles.active>
 					</environmentVariables>
 				</configuration>
@@ -182,10 +183,10 @@
 						<groupId>io.fabric8</groupId>
 						<artifactId>docker-maven-plugin</artifactId>
 						<executions>
-							<!-- Runs before and after integration test -->
+							<!-- Runs before migrate, before and after integration test -->
 							<execution>
 								<id>prepare-it-database</id>
-								<phase>pre-integration-test</phase>
+								<phase>initialize</phase>
 								<goals>
 									<goal>start</goal>
 								</goals>
@@ -195,7 +196,7 @@
 											<alias>postgres-db</alias>
 											<run>
 												<ports>
-													<port>postgres-db-it.port:5432</port>
+													<port>${postgres.db.port}:5432</port>
 												</ports>
 											</run>
 										</image>

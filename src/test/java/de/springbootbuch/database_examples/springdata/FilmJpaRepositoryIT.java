@@ -1,9 +1,9 @@
 package de.springbootbuch.database_examples.springdata;
 
+import static org.assertj.core.api.Assertions.*;
+
 import java.util.List;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.junit.Assert.assertThat;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class FilmJpaRepositoryIT {
 	public void findAllShouldWork() {
 		final List<FilmEntity> films
 			= filmRepository.findAll();
-		assertThat(films.size(), is(greaterThan(0)));
+		assertThat(films.size()).isGreaterThan(0);
 	}
 
 	@Test
@@ -35,6 +35,6 @@ public class FilmJpaRepositoryIT {
 			.map(l -> new FilmEntity("Æon Flux", l))
 			.ifPresent(filmRepository::save);
 		assertThat(
-			filmRepository.count(), is(cnt + 1));
+			filmRepository.count()).isEqualTo(cnt + 1);
 	}
 }

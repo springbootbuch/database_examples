@@ -3,10 +3,10 @@ package de.springbootbuch.database_examples.jooq;
 import static de.springbootbuch.database_examples.jooq.Tables.LANGUAGE;
 import static de.springbootbuch.database_examples.jooq.Tables.ACTOR;
 import java.util.Map;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
+
+import static org.assertj.core.api.Assertions.*;
+
 import org.jooq.Record3;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
@@ -39,7 +39,7 @@ public class JOOQExampleQueriesIT {
 	public void generateStatisticsShouldWork() {
 		 Map<String, Record3<String, String, Integer>> stats =
 			 exampleQueries.generateLanguageStatistics();
-		 Assert.assertThat(stats.size(), is(equalTo(121)));
+		 assertThat(stats.size()).isEqualTo(121);
 		 stats.forEach((k, v) -> LOG.info("{}: {} {} movies", v.get(ACTOR.LAST_NAME), v.get(LANGUAGE.NAME), v.get(2)));
 	}
 }

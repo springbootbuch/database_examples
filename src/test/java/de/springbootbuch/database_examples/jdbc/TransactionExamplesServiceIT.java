@@ -1,20 +1,19 @@
 package de.springbootbuch.database_examples.jdbc;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.*;
+import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.*;
+import static org.springframework.test.jdbc.JdbcTestUtils.*;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTableWhere;
 
 @ExtendWith(SpringExtension.class)
 @JdbcTest(
@@ -34,14 +33,14 @@ public class TransactionExamplesServiceIT {
 		try {
 			examplesService.tryInsert();
 		} catch(RuntimeException e) {
-			assertThat(e.getMessage(),
-				is("Some error here..."));			
+			assertThat(e.getMessage())
+				.isEqualTo("Some error here...");
 		}
 		assertThat(
 			countRowsInTableWhere(
 				jdbcTemplate, 
-				"actor", "first_name like 'Chuck%'"), 
-			is(0));
+				"actor", "first_name like 'Chuck%'"))
+			.isEqualTo(0);
 	}
 	
 	@Test	
@@ -50,12 +49,12 @@ public class TransactionExamplesServiceIT {
 		assertThat(
 			countRowsInTableWhere(
 				jdbcTemplate, 
-				"actor", "first_name like 'Chuck%'"), 
-			is(1));
+				"actor", "first_name like 'Chuck%'"))
+			.isEqualTo(1);
 	}
 	
 	@Test
 	public void countSomethingShouldWork() {
-		assertThat(examplesService.countSomething(), is(greaterThan(0L)));
+		assertThat(examplesService.countSomething()).isGreaterThan(0L);
 	}
 }

@@ -50,3 +50,6 @@ gradle-app.setting
 .classpath
 .project
 .settings/
+
+.idea/
+*.iml

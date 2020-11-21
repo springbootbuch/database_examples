@@ -1,10 +1,11 @@
 package de.springbootbuch.database_examples.springdata;
 
+import static org.assertj.core.api.Assertions.*;
+
 import java.util.Optional;
 import java.util.stream.Stream;
-import static org.hamcrest.CoreMatchers.is;
+
 import org.junit.jupiter.api.Test;
-import static org.junit.Assert.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,10 +28,10 @@ public class FilmSimpleJpaRepositoryIT {
 		Optional<FilmEntity> film;
 		
 		film = filmRepository.findById(-1);
-		assertThat(film.isPresent(), is(false));
+		assertThat(film.isPresent()).isFalse();
 		
 		film = filmRepository.findById(1);
-		assertThat(film.isPresent(), is(true));
+		assertThat(film.isPresent()).isTrue();
 	}
 	
 	@Test
@@ -48,7 +49,7 @@ public class FilmSimpleJpaRepositoryIT {
 	public void countAllByTitleLikeShouldWork() {
 		assertThat(
 			filmRepository
-				.countAllByTitleLike("A%"), 
-			is(46L));
+				.countAllByTitleLike("A%"))
+			.isEqualTo(46L);
 	}
 }
